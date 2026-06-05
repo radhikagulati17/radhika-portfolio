@@ -107,6 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.nav-link');
     if (!sections.length || !navLinks.length) return;
 
+    const OFFSET = 120; // navbar height + buffer
+
     const setActiveLink = (id) => {
       navLinks.forEach(link => {
         const href = link.getAttribute('href');
@@ -118,18 +120,29 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     };
 
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setActiveLink(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
+    let ticking = false;
 
-    sections.forEach(section => sectionObserver.observe(section));
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY + OFFSET;
+        let currentSection = sections[0];
+
+        for (const section of sections) {
+          if (section.offsetTop <= scrollY) {
+            currentSection = section;
+          }
+        }
+
+        setActiveLink(currentSection.id);
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // set initial state
   };
 
   /* ----------------------------------------------------------
