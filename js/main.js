@@ -461,6 +461,38 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* ----------------------------------------------------------
+     9. Scroll-to-Top Button
+  ---------------------------------------------------------- */
+  const initScrollToTop = () => {
+    const btn = document.getElementById('scroll-to-top');
+    if (!btn) return;
+
+    const SHOW_THRESHOLD = 400; // px from top before button appears
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        if (window.scrollY > SHOW_THRESHOLD) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
+        ticking = false;
+      });
+    };
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // set initial state
+  };
+
+  /* ----------------------------------------------------------
      Initialise Everything
   ---------------------------------------------------------- */
   initScrollReveal();
@@ -471,4 +503,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroCanvas();
   initMobileMenu();
   initCVDownload();
+  initScrollToTop();
 });

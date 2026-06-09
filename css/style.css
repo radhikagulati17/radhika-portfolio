@@ -1176,6 +1176,57 @@ h1.hero-title {
 
 
 /* ─────────────────────────────────────────────
+   SCROLL-TO-TOP BUTTON
+   ───────────────────────────────────────────── */
+.scroll-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(196, 113, 59, 0.25);
+  background: rgba(248, 247, 244, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--accent-copper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.35s ease,
+              background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  background: var(--accent-copper);
+  border-color: var(--accent-copper);
+  color: #fff;
+  box-shadow: 0 8px 28px rgba(196, 113, 59, 0.3);
+  transform: translateY(-3px);
+}
+
+.scroll-to-top:active {
+  transform: translateY(0);
+}
+
+.scroll-to-top svg {
+  display: block;
+}
+
+
+/* ─────────────────────────────────────────────
    16. REDUCED MOTION PREFERENCE
    ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
